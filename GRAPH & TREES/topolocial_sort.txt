@@ -1,0 +1,36 @@
+ //declare in degree array and visited array with vector named ans;
+//APPLICABLE FOR ONLY ACYCLYIC DIRECTED GRAPH , IF CYCLE PRESENT THEN THE ANSWER WILL CONTAIN LESS TERMS.W
+
+void topological_sort()
+{
+    queue<ll>q;
+    for(ll i=0;i<n;i++)
+    {
+        
+        for(ll j=0;j<v[i].size();j++)
+        {
+            indeg[v[i][j]]++;
+        }
+    }
+    for(ll i=0;i<n;i++)
+    {
+        if(indeg[i]==0&&vis[i]==0)
+        {
+            q.push(i);
+            while(!q.empty())
+            {
+                ll ver = q.front();q.pop();
+                ans.pb(ver);
+                vis[ver]=1;
+                for(ll j=0;j<v[ver].size();j++)
+                {
+                    indeg[v[ver][j]]--;
+                    if(indeg[v[ver][j]]==0&&vis[v[ver][j]]==0)
+                    {
+                        q.push(v[ver][j]);
+                    }
+                }
+            }
+        }
+    }
+}

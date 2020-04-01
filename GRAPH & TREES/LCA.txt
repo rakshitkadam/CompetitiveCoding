@@ -1,0 +1,47 @@
+...DECLARE N GLOBALLY!!! ITS IMPORTANT OR ELSE IT WILL NOT WORK
+
+AFTER ACCEPTING THE GRAPH CALL THE PREPROCESS PASSING ROOT AS THE ARGUEMENT
+================================================================================
+ll up[][];
+ll l;ll n;
+ll timer;
+ll in[],out[];
+vector<ll>v[];
+void dfs(ll root,ll parent)
+{
+    in[root]=++timer;
+    up[root][0]=parent;
+    for(ll i=1;i<=l;i++)
+    {
+        up[root][i]=up[up[root][i-1]][i-1];
+    }
+    for(auto it:v[root])
+    {
+        if(it!=parent)
+            dfs(it,root);
+    }
+    out[root]=++timer;
+}
+//CHECKS IF A IS ANCESTOR OF B
+bool is_ancestor(ll a,ll b)
+{
+    return in[a]<=in[b] && out[a]>=out[b];
+}
+ll lca(ll a,ll b)
+{
+    if(is_ancestor(a,b))return a;
+    if(is_ancestor(b,a))return b;
+    for(ll i=l;i>=0;i--)
+    {
+        if(!is_ancestor(up[a][i],b))
+        {
+            a=up[a][i];
+        }
+    }
+    return up[a][0];
+}
+void preprocess(ll root)
+{
+    l=ceil(log2(n));
+    dfs(root,root);
+}

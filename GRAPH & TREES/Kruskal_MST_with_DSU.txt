@@ -1,0 +1,102 @@
+
+Pushing style: ll a,b,c;
+        cin>>a>>b>>c;
+        v[a].pb(mp(c,b));
+        v[b].pb(mp(c,a));
+        arr[i]=Edge(a,b,c);
+
+Declare n globally ,we used the edges for storing the edges along with storing the graph in v and giving the minimum spanning tree in tree vector
+REMEMBER WHILE PUSHING THE MP(WEIGHT,VERTEX) ,pushing is done in this manner...
+
+================================================================================================================
+
+struct Edge
+{
+    ll u,v,wt;
+    Edge(){}
+    Edge(ll a,ll b,ll c)
+    {
+        u=a,v=b,wt=c;
+    }
+    
+};
+vector< pair<ll,ll> >v[MAX];
+vector< pair<ll,ll> >tree[MAX];
+Edge arr[MAX];  ll e;
+struct DSU
+{
+    int connected;
+    int par[MAX], size[MAX];
+
+   // DSU() {}
+
+    DSU(int n)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            par[i]=i;
+            size[i]=1;
+        }
+        connected=n;
+    }
+
+    int getPar(int k)
+    {
+        while(k!=par[k])
+        {
+            par[k]=par[par[k]];
+            k=par[k];
+        }
+        return k;
+    }
+
+    int getSize(int k)
+    {
+        return size[getPar(k)];
+    }
+
+    void unite(int u, int v)
+    {
+        int par1=getPar(u), par2=getPar(v);
+
+        if(par1==par2)
+            return;
+
+        connected--;
+
+        if(size[par1]>size[par2])
+            swap(par1, par2);
+
+        size[par2]+=size[par1];
+        size[par1]=0;
+        par[par1]=par[par2];
+    }
+};
+
+bool comp(Edge &a,Edge &b)
+{
+    return a.wt<b.wt;
+}
+ll kruskal_MST()
+{
+     DSU d(n);
+    sort(arr,arr+e,comp);ll ans=0;
+    for(ll i=0;i<e;i++)
+        {
+        ll u=arr[i].u;
+        ll v=arr[i].v;
+        ll w=arr[i].wt;
+        if(d.getPar(u)!=d.getPar(v))
+        {
+            d.unite(u,v);
+            ans+=w;
+            tree[u].pb(mp(w,v));
+            tree[v].pb(mp(w,u));
+        }
+        }
+    return ans;
+}
+
+
+
+

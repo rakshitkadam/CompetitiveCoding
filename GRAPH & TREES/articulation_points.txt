@@ -1,0 +1,54 @@
+ll vis[MAX];
+ll timer;
+ll low[MAX];
+bool isAr[MAX];
+vector<ll>v[MAX];
+ll tin[MAX];
+
+Ll n, SEE THE N WHICH WE ARE USING IN THE ALGORITHM AND USE IT ACCORDINGLY 
+
+FOR EACH COMPONENT OUR PARENT IS PASSED WITH -1 VALUE 
+===========================================================================
+EXPLANATION OF ALGORITHM:
+
+WE MAINTAIN A TIMER AND OUR CURRENT LOW IS EQUAL TO TIMER, THE VERTICES WHICH ARE VISITED BEFORE WILL BE DISCOVERED BEFORE,SO WE SEE IF ANY OF THE SUBTREE STARTING FROM THE CHILD OF THE CURRENT VERTEX IS SUCH THAT IT DOESNOT HAVE ANY BACK EDGE OR IS NOT CONNECTED TO A VERTEX SUCH THAT IT APPEARS BEFORE THEN THE TIME WHEN CURRENT VERTEX IS DISCOVERED ,SO IF WE FIND SUCH CHILD THEN AFTER REMOVAL OF CURRENT VERTEX THE COMPONENTS WILL BE INCREASED SO THE VERTEX BECOMES ARTICUALTION POINT...
+REFER : CODEFORCES BLOG ,Ashish Gupta GITHUB ,HACKER EARTH THEORY...
+============================================================================
+
+
+void dfs(ll root,ll parent)
+{
+    vis[root]=1;
+    tin[root]=low[root]=++timer;
+    ll children=0;
+    for(auto it:v[root])
+    {
+        if(it==parent)continue;
+     if(vis[it])
+     {
+         low[root]=min(low[root],low[it]);
+     }
+    else
+    {
+        dfs(it,root);
+        low[root]=min(low[root],low[it]);
+        if(low[it]>=tin[root] && parent!=-1)
+            isAr[root]=true;
+        children++;
+    }
+    }
+    if(parent==-1 && children>1)
+        isAr[root]=true;
+}
+void articulation()
+{
+    //n is the number of vertices;
+    for(ll i=0;i<=n;i++)vis[i]=isAr[i]=0;
+    for(ll i=0;i<=n;i++)tin[i]=low[i]=-1;
+    for(ll i=1;i<=n;i++)
+    {
+        if(!vis[i])
+            dfs(i,-1);
+    }
+}
+
