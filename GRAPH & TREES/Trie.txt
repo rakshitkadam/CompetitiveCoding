@@ -1,0 +1,31 @@
+//  RAKSHIT KADAM
+
+TRIE DATA STUCTURE -> EACH NODE IN THE TRIE DATA STRUCTURE IS REPRESENTED BY A SINGLE ARRAY OF 26 NUMBERS , WHERE TRIE [I][ LETTER - 'A' ],(I WAS THE POSITION WHERE THE CURRENT ELEMENT IS PLACE,) REPRESENTS THE NUMBER OF THE ARRAY WHERE THE NEXT ELEMENT SHOULD BE PLACED...
+
+IMPLEMENTATION ==>
+
+===========================================================================
+const int maxn = 1e6+23;
+ll  Trie [ maxn][27];
+ll m;
+//maintain a global variable m which will help to figure out the next location of the array that can be given to the next character of the string .
+//lets take n string as input and maintain a trie of the given strings;
+
+// whenever we encounter such Trie[i][j] such that its zero we claim that no node is present here...
+
+void main()
+{
+    int n ;cin>>n;
+    string s;
+    for(int i=0;i<n;i++)
+    {
+        cin>>s;int next=0;
+        for(auto it:s)
+        {
+            if(!Trie[next][s-'a'])Trie[next][s-'a']=++m;
+            next = Trie[next][s-'a'];
+        }
+        
+    }
+}
+
