@@ -1,0 +1,12 @@
+
+
+
+LINK FOR DIGIT DP: https://github.com/flash7even/Programming-Contest/blob/master/Code%20Repository/Dynamic%20Programming/Digit%20DP/Digit-DP.cpp
+
+============================================================================================================
+============================================================================================================
+
+IN DIGIT DP WE CONSIDER TWO STATES ONE WHEN WE ARE SURE THAT OUR NUMBER IS LESS THAN THE GIVEN NUMBER SO WE CAN BLINDLY ADD ALL THE DIGITS TO IT AND ANOTHER IS WHEN WE HAVING EXACTLY SAME DIGITS TILL NOW SO WE ARE NOT SURE WHETHER OUR NUMBER WILL BE LOWER OR EQUAL TO THE GIVEN NUMBER SO WE CANT ADD BLINDLY...
+
+ABOVE IS THE CODE LINK...
+PROBLEM : ABC 154 E
