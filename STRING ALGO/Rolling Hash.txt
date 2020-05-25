@@ -1,0 +1,22 @@
+// CALL PRE FIRST,PASS THE STRING P =31 IF LOWER CASE ELSE P =53 IF UPPER CASE ARE ALSO INVOLVED...
+
+
+
+ll pows[100005];
+ll Hash[100005];
+void pre(string s,ll p,ll mod)
+{
+    ll ns = s.length();
+    pows[0]=1;
+    for(ll i=ns-1;i>=0;i--)
+    {
+        Hash[i]=(Hash[i+1]*p + s[i]-'a'+1)%mod;
+        pows[ns-i] = (pows[ns-i-1]*p)%mod;
+    }
+    
+}
+ll getHash(ll l,ll r,ll mod)
+{
+    ll ans = (Hash[l]+ mod - (Hash[r+1]*(pows[r-l+1]))%mod)%mod;
+    return ans;
+}
