@@ -1,0 +1,43 @@
+
+//SPFA - SHORTEST PATH FASTEST ALGORITHM....
+// MAKE SURE THAT THE GRAPH IS DIRECTED AS IF U PROVIDE AN UNDIRECTED GRAPH THEN A SINGLE NEGATIVE WT CAN MAKE A CYCLE...
+//RETURN TRUE IF NEGATIVE CYCLE IS DETECTED...
+
+
+
+vector< pii> v[maxn];
+bool inqueue[maxn];
+queue<ll>q;
+ll n,m;
+ll dis[maxn];
+ll cnt[maxn];
+bool spfa()
+{
+    for(ll i=1;i<=n;i++)dis[i]=INF;
+    dis[1]=0;inqueue[1]=1;q.push(1);
+    while(!q.empty())
+    {
+        ll now = q.front();
+        q.pop();
+        inqueue[now]=0;
+        for(auto it:v[now])
+        {
+            if(dis[it.x]>it.y + dis[now])
+            {
+                dis[it.x] = min((ll)INF,dis[now]+it.y);
+                // to prevent overflow...
+                // u can maintain a parent array if u want the cycle..
+                if(!inqueue[it.x])
+                {
+                    inqueue[it.x]=1;q.push(it.x);
+                    cnt[it.x]++;
+                    if(cnt[it.x]>n)
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
