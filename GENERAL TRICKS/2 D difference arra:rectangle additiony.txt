@@ -1,0 +1,24 @@
+CONSTRUCTING STYLE:
+ for(ll i=1;i<=n;i++)
+    {
+        for(ll j=1;j<=m;j++)
+        {
+          // TAKE THE INPUT... HANDLE THE DATA ACCORDINGLY..
+            pre[i][j] += pre[i-1][j] + pre[i][j-1] -pre[i-1][j-1];
+        }
+    }
+
+FOR GETTING A SUM OF NUMBERS FORMING A RECTANGLE HAVING UPPER LEFT L,U AND LOW RIGHT D,R IS:
+	= PRE[D][R] -PRE[D][L]-PRE[U][R] +PRE[U][L]
+
+
+**IMP******************
+
+FOR ADDING LETS SAY X TO ALL THE RECTANGLE FROM UP LEFT SAY U,L TO DOWN RIGHT D,R;
+PRE[D+1][R+1]+=X;
+PRE[U][L]+=X;
+PRE[U][R+1]-=X;
+PRE[D+1][L]-=X;
+
+WHILE CREATING IT AGAIN USE THE ABOVE METHOD ......
+************************
