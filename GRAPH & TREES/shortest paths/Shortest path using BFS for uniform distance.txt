@@ -1,0 +1,23 @@
+void solve()
+{
+    memset(dis,MAX,sizeof dis);
+    ll n,e;cin>>n>>e;ll k;cin>>k;
+    forci(i,e)
+    {
+        ll a,b;cin>>a>>b;
+        v[a].pb(b);v[b].pb(a);
+    }
+    queue<ll> q;
+    q.push(1);dis[1]=0;
+    while(!q.empty())
+    {
+        ll t=q.front();q.pop();vis[t]=1;
+        for(auto it:v[t])
+        {
+            dis[it]=min(dis[it],1+dis[t]);
+            if(!vis[it]){q.push(it);vis[it]=1;}
+        }
+        
+    }
+    forci(i,10)cout<<dis[i]<<"  for i-> "<<i<<endl;
+}
