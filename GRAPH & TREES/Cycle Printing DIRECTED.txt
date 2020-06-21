@@ -1,0 +1,49 @@
+
+
+
+//MISTAKES: I SKIPPED WHILE ITERATING IF PARENT IS ENCOUNTERED BUT HERE A CYCLE CAN BE FORMED WITH A PARENT EG 1->2, 2->1 CYCLE OF LENGTH 2... ALWAYS PAY ATTENTION TO THE ORDER OF PRINTING CYCLES ,HERE THATS WHY WE HAVE REVERSED IT AT THE END...
+
+
+
+vi v[maxn];
+
+ll h[maxn];
+ll vis[maxn];
+ll par[maxn];
+ll act[maxn];
+void dfs(ll root,ll p)
+{
+   
+    vis[root]=1;
+    act[root]=1;
+    par[root]=p;
+    for(auto it:v[root])
+    {
+        if(act[it])
+        {
+            vi ans;
+            ans.pb(root);ll now =root;
+            while(root^it)
+            {
+                root=par[root];
+                ans.pb(root);
+            }
+            ans.pb(ans[0]);
+            cout<<ans.size()<<endl;
+            reverse(ans.begin(),ans.end());
+            for(ll i:ans)
+            {
+                cout<<i<<" ";
+            }
+            exit(0);
+        }
+        else if(!vis[it])
+        {
+            par[it]=root;
+            dfs(it,root);
+        }
+        
+    }
+    act[root]=0;
+
+}
