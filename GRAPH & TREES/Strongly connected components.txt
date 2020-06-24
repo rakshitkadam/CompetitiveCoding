@@ -1,0 +1,63 @@
+
+vi component[maxn];
+ll vis[maxn];
+vi order;
+vi v[maxn];
+vi t[maxn];
+ll Size;
+ll belong[maxn];
+// belong -> which component the node belongs to...
+// v -> original graph
+// t-> transpose of the original graph..
+
+// PUSHING THE NODES BY THE INCREADING ORDER OF OUT TIME... THROUGH DFS1 AND STORING IT IN "order"(vector)
+void dfs1(ll root)
+{
+    vis[root] = 1;
+    for(auto it:v[root])
+    {
+        if(!vis[it])dfs1(it);
+    }
+    order.pb(root);
+}
+
+void dfs2(ll root)
+{
+    vis[root]=1;
+    component[Size].pb(root);
+    belong[root]=Size;
+    for(auto it:t[root])
+    {
+        if(!vis[it])
+        {
+            dfs2(it);
+        }
+    }
+}
+
+ll n;cin>>n;ll m;cin>>m;
+    ll a,b;
+    for(ll i=0;i<m;i++)
+    {
+        cin>>a>>b;
+        v[a].pb(b);
+        t[b].pb(a);
+    }
+    for(ll i=1;i<=n;i++)
+    {
+        if(!vis[i])
+        {
+            dfs1(i);
+        }
+    }
+    reverse(order.begin(),order.end());
+    memset(vis,0,sizeof vis);
+    for(int i:order)
+    {
+        if(!vis[i])
+        {
+            dfs2(i);
+            Size++;
+        }
+    }
+    // Size -> denotes no. of components ,belong denotes the node belong to which component, component vector has the number present in every components,from 0 to size-1, I.e. total Size components...

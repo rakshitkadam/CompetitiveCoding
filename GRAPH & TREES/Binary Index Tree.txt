@@ -1,0 +1,19 @@
+
+//indexing starts from 1 and asking the query also starts from the index 1...
+ll n;
+const int maxn = 1000036+3;
+ll bit[maxn];
+ll query(ll x)
+{
+    ll res = 0;
+    while(x)
+    {
+        res+=bit[x];
+        x-= (x&-x);
+    }
+    return res;
+}
+void update(int x, int v) {
+  for (; x <=n; x += x&-x)
+    bit[x] += v;
+}
