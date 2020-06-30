@@ -11,7 +11,7 @@ struct edge{
 }e[2*(no_edges)];
 ll dis[no_nodes];
 ll par[no_nodes];
-vi v[no_nodes];
+vector<int> v[no_nodes];
 
 
 
