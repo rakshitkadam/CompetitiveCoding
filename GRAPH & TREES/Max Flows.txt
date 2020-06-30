@@ -1,0 +1,69 @@
+
+
+Globally=>
+/* Still wondering why reverse edges are needed to be maintained in flows,read :https://www.geeksforgeeks.org/max-flow-problem-introduction/
+ reverse edges help to undo the flow so that the flow can again be distributed in proper manner such that max flow could be increased... plz refer the article....
+*/
+struct edge{
+    ll u,v,cap,rev;
+    edge(){}
+    edge(ll a,ll b,ll c,ll d){u=a,v=b,cap=c,rev=d;}
+}e[2*(no_edges)];
+ll dis[no_nodes];
+ll par[no_nodes];
+vi v[no_nodes];
+
+
+
+Inside void main() =>
+ ll n,m;cin>>n>>m;ll a,b,c;
+    for(ll i =1;i<=m;i++)
+    {
+        cin>>a>>b>>c;
+        e[i<<1] = edge(a,b,c,(i<<1|1));
+        e[i<<1|1] = edge(b,a,0,(i<<1));//reverse edge having capacity 0, ;
+        v[a].pb(i<<1);
+        v[b].pb(i<<1|1);
+    }
+    ll mxflw = 0;
+    while(1)
+    {
+        queue<ll>q;
+        ll flw =INF;
+        q.push(1);
+        memset(dis,0x3f,sizeof dis);
+        memset(par,0,sizeof par);
+        dis[1]=0;
+        while(!q.empty())
+        {
+            
+            ll f = q.front();
+            q.pop();
+            for(int i :v[f] )
+            {
+                if(dis[e[i].v]>1e9 && e[i].cap)
+                {
+                    dis[e[i].v]=dis[f]+1;
+                    q.push(e[i].v);
+                    par[e[i].v] = i;
+                }
+            }
+        }
+        ll x =n;
+        if(dis[n]>1e9)break;
+        while(e[par[x]].u)
+        {
+            flw = min(flw,e[par[x]].cap);
+            x= e[par[x]].u;
+        }
+        x= n;
+        mxflw+=flw;
+        while(x )
+        {
+            e[par[x]].cap -= flw;// subtract the flow discovered in this augmented path..
+            e[e[par[x]].rev].cap+=flw;//add reverse flow
+            x=e[par[x]].u;
+        }
+        
+    }
+    cout<<mxflw<<endl;
