@@ -72,7 +72,8 @@ void build(ll num,ll l ,ll r)
 {
     if(l==r)
     {
-        tree[num].val = //YOUR ARRAY VALUE...;return;
+        tree[num].val = //YOUR ARRAY VALUE...;
+	return;
     }
     ll mid = l+r>>1;
     build(num<<1,l,mid);
