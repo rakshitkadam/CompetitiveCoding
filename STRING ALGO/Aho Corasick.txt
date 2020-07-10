@@ -1,0 +1,105 @@
+
+const int K = 26;
+
+struct Vertex {
+    int next[K];
+    ll leaf =-1;
+    int p = -1;
+    char pch;
+    int link = -1;
+    int go[K];
+    ll exit =-1;
+    Vertex(int p=-1, char ch='$') : p(p), pch(ch) {
+        fill(begin(next), end(next), -1);
+        fill(begin(go), end(go), -1);
+    }
+};
+
+vector<Vertex> t(1);
+
+void add_string(string const& s,ll ind) {
+    int v = 0;
+    for (char ch : s) {
+        int c = ch - 'a';
+        if (t[v].next[c] == -1) {
+            t[v].next[c] = t.size();
+            t.push_back(Vertex(v, ch));
+        }
+        v = t[v].next[c];
+    }
+    t[v].leaf = ind;
+}
+
+int go(int v, char ch);
+
+ 
+int get_link(int v){
+    if(t[v].link == -1)
+    {
+        if(v==0 || t[v].p==0)
+            t[v].link = 0;
+        else
+            t[v].link = go(get_link(t[v].p), t[v].pch);
+    }
+    return t[v].link;
+}
+
+
+
+
+int go(int v, char ch){
+    int c = ch-'a';
+    if(t[v].go[c] == -1)
+    {
+        if(t[v].next[c] != -1)
+        {t[v].go[c] = t[v].next[c];}
+        else
+        {t[v].go[c] =  v==0 ? 0 : go(get_link(v), ch);
+        }
+    }
+    return t[v].go[c];
+}
+ 
+ll get_exit(ll v)
+{
+    if(t[v].exit==-1)
+    {
+        if(v==0)
+        {
+            t[v].exit=0;
+        }
+        else
+        {
+            ll links = get_link(v);
+            if(t[links].leaf>=0)
+            {
+                t[v].exit = links;
+            }
+            else
+            {
+                t[v].exit = get_exit(links);
+            }
+        }
+    }
+    return t[v].exit;
+    
+}
+aho -corasick algorithm -> basically we can do many things from this algorithm like ,say u are given a set of strings and a large string, u have to say like how many times a particular string occurs as a subtring from the large string ...
+    so we have some functions...
+    firstly we make a trie of all the set of strings. we can do it by using add_string function
+    pass your string and the index of the string in the list of string ,passing index will help u recognize which string pattern has been found by checking the value of the leaf , as leaf will hold the index...
+====
+    FIRST CONSTRUCT THE AUTOMATA USING THE LIST OF STRINGS GIVEN...CALLING ADD_STRINGS
+====
+struct Vertex -> next[] holds the next position of a specific character just like in a trie
+    p and pch hold the previous node number from where u came here, and pch holds the character from which u come here.like lets say uptill now i have discovered a string ab now i want to add c ,so while transitioning ,when i add a vertex my pch = c and p = current node from where transition is to be done...
+        exit = exit gives the nearest node which  is a leaf..
+        go [] -> contains suffix link...
+        suffix link -> Lets say i have constructed the automata ,and now i traverse my large string, character by character,now lets say if i dont find the next character, so i can save my time from recheking by going to the (suffix link or getting it by calling get_link)longest suffix of the string which is prefix from root to any other vertex... ,i will find from root, upto which vertex i traverse so that the string which i get on traversing is same as suffix of the string...
+            we can do this by calling GET LINK function ,so it will call GO function by passing the vertex as p,i.e. previous function from where it came,and passing pch
+        what go will do is get the expected vertex...like it will first see whether go link is present in that vertex,with the expected character, if not that it will go to suffix link of that vertex and again see whether character is present,do it until we either find it or we come to root...
+POINTS TO REMEMBER:- none of the suffix link point to itself except the root node. first the trie compulsarily has 1 node, remember the edges represent the character ...
+
+    
+//Sample problem:https://codeforces.com/contest/963/problem/D
+
