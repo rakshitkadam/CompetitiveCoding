@@ -1,27 +1,46 @@
-// d1[i]  and d2[i], denoting the number of palindromes accordingly with odd and even lengths with centers in the position i.
+Call convertonewstring first. 
 
-vector<int> d1(n);
-for (int i = 0, l = 0, r = -1; i < n; i++) {
-	int k = (i > r) ? 1 : min(d1[l + r - i], r - i + 1);
-	while (0 <= i - k && i + k < n && s[i - k] == s[i + k]) {
-		k++;
-	}
-	d1[i] = k--;
-	if (i + k > r) {
-		l = i - k;
-		r = i + k;
-	}
-}
+// Working -> we add two different characters at first and last of string...
+// then we add a # before every character in the string .for eg string is abc so our new string is @#a#b#c#$ ,first of all @ and $ are for purpose of manipulation and generalisation ,they don't have play any vital role in algorithm. So what we do is we consider the current character as centre and see till how much our palindrome extends..
+YouTube:Tushar Roy..
+Also every # will make sure a previous letter is counted twice..
 
-vector<int> d2(n);
-for (int i = 0, l = 0, r = -1; i < n; i++) {
-	int k = (i > r) ? 0 : min(d2[l + r - i + 1], r - i + 1);
-	while (0 <= i - k - 1 && i + k < n && s[i - k - 1] == s[i + k]) {
-		k++;
-	}
-	d2[i] = k--;
-	if (i + k > r) {
-		l = i - k - 1;
-		r = i + k ;
-	}
-}
+Problem:https://cses.fi/problemset/result/679676/
+
+string convertToNewString(const string &s) {
+    string newString = "@";
+
+    for (int i = 0; i < s.size(); i++) {
+        newString += "#" + s.substr(i, 1);
+    }
+
+    newString += "#$";
+    return newString;
+} 
+
+for(ll i=1;i<n-1;i+=1)
+    {
+        ll mir = 2*c-i;
+        if(r>i)
+        {
+            p[i]= min(p[mir],r-i);	// min(p[mir],r-i) becoz  if we are in r> i ,
+        }
+        while(d[i+p[i]+1]==d[i-p[i]-1])
+        { p[i]++;}
+        if(r<p[i]+i)
+        {
+            c=i;
+            r=p[i]+i;
+        }
+    }
+    ll maxx = -1;ll from=-1;
+    for(ll i= 1;i<n;i++)
+    {
+        if(maxx<=p[i])
+        {
+            maxx=p[i];
+            from = (i-p[i]-1)>>1;
+        }
+    }
+    for(ll i=from;i<from+maxx;i++)
+        cout<<s[i];
