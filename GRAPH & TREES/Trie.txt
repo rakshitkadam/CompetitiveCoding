@@ -1,3 +1,39 @@
+typedef struct trie
+{
+	typedef struct node
+	{
+		node* nxt[26];
+		int cnt = 0;
+
+		node()
+		{
+			for(int i=0;i<26;i++) nxt[i] = nullptr;
+			cnt = 0;
+		}
+
+	}Node;
+
+	Node* head;
+
+	trie() { head = new Node(); }
+
+	void insert(string x)
+	{
+		Node* cur = head;
+		for(int i = 0;i<x.size();i++)
+		{
+            if(cur->nxt[x[i]-'a']==nullptr) {
+                cur->nxt[x[i]-'a'] = new Node();
+            }
+			cur = cur->nxt[x[i]-'a'];
+            cur->cnt++;
+		}
+	}
+}Trie;
+
+
+================================================================================================================================
+
 //  RAKSHIT KADAM
 
 TRIE DATA STUCTURE -> EACH NODE IN THE TRIE DATA STRUCTURE IS REPRESENTED BY A SINGLE ARRAY OF 26 NUMBERS , WHERE TRIE [I][ LETTER - 'A' ],(I WAS THE POSITION WHERE THE CURRENT ELEMENT IS PLACE,) REPRESENTS THE NUMBER OF THE ARRAY WHERE THE NEXT ELEMENT SHOULD BE PLACED...
